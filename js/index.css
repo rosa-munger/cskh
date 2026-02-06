@@ -555,7 +555,7 @@ body {
 .move-port .logo-text {
   color: #fff;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 600;
   white-space: nowrap;
 }
 .move-port .neirf {
