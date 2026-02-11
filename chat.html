@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>在线客服</title>
     <style>
         * {
@@ -15,125 +18,61 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #FFFFFF;
+            background: #f5f5f5;
         }
         
-        #chat-container {
+        /* The Chat Iframe */
+        #chat-frame {
+            border: none;
+            background: white;
+            display: block;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
         }
         
-        #tawk-embed-container {
-            position: relative;
-            width: 700px;
-            height: 600px;
-            max-width: 90vw;
-            max-height: 90vh;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            background: white;
-        }
-        
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 9999;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1e88e5;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            color: #666;
-            font-size: 16px;
-        }
-        
-        /* Ensure embedded chat fills container */
-        #tawk-embed-container > * {
-            width: 100% !important;
-            height: 100% !important;
+        /* Desktop: Center the iframe */
+        @media (min-width: 769px) {
+            #chat-frame {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 700px;
+                height: 600px;
+                max-width: 90vw;
+                max-height: 90vh;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            }
         }
         
         /* Mobile: Fullscreen */
         @media (max-width: 768px) {
-            #chat-container {
-                align-items: flex-start;
-            }
-            
-            #tawk-embed-container {
+            #chat-frame {
                 width: 100%;
                 height: 100%;
-                max-width: 100%;
-                max-height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
                 border-radius: 0;
-                box-shadow: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="loading" id="loading">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">正在连接客服...</div>
-    </div>
-    
-    <div id="chat-container">
-        <div id="tawk-embed-container"></div>
-    </div>
-    
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    
-    // Configure Tawk to embed in specific div
-    Tawk_API.embedded = 'tawk-embed-container';
-    
-    Tawk_API.onLoad = function(){
-        // Hide loading
-        document.getElementById('loading').style.display = 'none';
+    <script>
+        // Dynamically create iframe with cache-busting timestamp
+        // This ensures the browser never loads a stale version of the chat widget
+        var iframe = document.createElement('iframe');
+        iframe.id = 'chat-frame';
+        iframe.title = 'Customer Support';
+        iframe.allow = 'camera; microphone; fullscreen; display-capture';
         
-        // Maximize the embedded chat
-        Tawk_API.maximize();
-    };
-    
-    // Prevent minimizing
-    Tawk_API.onChatMinimized = function(){
-        Tawk_API.maximize();
-    };
-    
-    (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/696ce1eee9768b197f0312ff/1jfj225dn';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-    })();
+        // Add timestamp to force fresh load
+        var timestamp = new Date().getTime();
+        iframe.src = 'https://tawk.to/chat/696ce1eee9768b197f0312ff/1jfj225dn?t=' + timestamp;
+        
+        document.body.appendChild(iframe);
     </script>
-    <!--End of Tawk.to Script-->
 </body>
 </html>

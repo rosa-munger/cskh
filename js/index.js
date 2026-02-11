@@ -2,6 +2,16 @@ $(function () {
   //点击事件
   dainjiclick();
 });
+
+// Open chat window helper function
+function openChat() {
+  // Add timestamp to URL to prevent caching of the chat page itself
+  var timestamp = new Date().getTime();
+  
+  // Open in new tab as requested
+  window.open('chat.html?v=' + timestamp, '_blank');
+}
+
 function dainjiclick() {
   $(".in-common-use").on("click", "li", function () {
     $(this).addClass("use-text").siblings().removeClass("use-text");
@@ -13,12 +23,12 @@ function dainjiclick() {
   //PC端li跳转页面 - 打开客服聊天页面
   $("#ultest").on("click",".back_XL",function(e){
     e.preventDefault();
-    window.open('chat.html', '_blank');
+    openChat();
   });
   //移动端li跳转页面 - 打开客服聊天页面
   $("#move-cem").on("click", ".back_move", function (e) {
     e.preventDefault();
-    window.open('chat.html', '_blank');
+    openChat();
   });
   $("#bookmarkme").click(function () {
     if (window.sidebar && window.sidebar.addPanel) {
@@ -76,7 +86,7 @@ function dainjiclick() {
   });
   //点击弹框中在线客服连接 - 打开客服聊天页面
   $(".kfService button").on("click", function () {
-    window.open('chat.html', '_blank');
+    openChat();
   });
 }
 //--------PC端测速
